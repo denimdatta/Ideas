@@ -31,15 +31,17 @@
             </button>
         </div>
 
-        <div class="mt-6">
-            <p class="text-sm/6 text-white">
-                <a href="/ideas" class="underline">View all ideas</a>
-            </p>
-            <ul class="mt-3 text-sm/6 text-white">
-                @foreach($ideas as $idea)
-                    <li class="mb-2">- {{ $idea }}</li>
-                @endforeach
-            </ul>
-        </div>
+        @if (count($ideas))
+            <div class="mt-6 text-white">
+                <p class="font-bold">
+                    <a href="/ideas" class="underline">View all Ideas</a>
+                </p>
+                <ul class="mt-6">
+                    @foreach($ideas as $idea)
+                        <li class="text-sm mt-2">{{ $idea }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </form>
 </x-layout>
