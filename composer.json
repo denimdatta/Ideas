@@ -76,6 +76,9 @@
         ],
         "pint": [
             "./vendor/bin/pint --parallel"
+        ],
+        "phpstan": [
+            "./vendor/bin/phpstan analyze --memory-limit=1G"
         ]
     },
     "extra": {
