@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('ideas');
+    $ideas = session('ideas', []);
+
+    return view('ideas', [
+        'ideas' => $ideas,
+    ]);
 });
 
 Route::post('/ideas', function () {

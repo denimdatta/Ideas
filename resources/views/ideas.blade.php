@@ -30,5 +30,16 @@
                 Save
             </button>
         </div>
+
+        <div class="mt-6">
+            <p class="text-sm/6 text-white">
+                <a href="/ideas" class="underline">View all ideas</a>
+            </p>
+            <ul class="mt-3 text-sm/6 text-white">
+                @foreach($ideas as $idea)
+                    <li class="mb-2">- {{ $idea }}</li>
+                @endforeach
+            </ul>
+        </div>
     </form>
 </x-layout>
