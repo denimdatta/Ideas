@@ -15,8 +15,10 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property  int          $id
- * @property  string       $name
+ * @property  string       $username
  * @property  string       $email
+ * @property  string       $first_name
+ * @property  string|null  $last_name
  * @property  Carbon|null  $email_verified_at
  * @property  string       $password
  * @property  string|null  $remember_token
@@ -32,11 +34,13 @@ use Illuminate\Support\Carbon;
  * @method  static  Builder<static>|User  whereCreatedAt($value)
  * @method  static  Builder<static>|User  whereEmail($value)
  * @method  static  Builder<static>|User  whereEmailVerifiedAt($value)
+ * @method  static  Builder<static>|User  whereFirstName($value)
  * @method  static  Builder<static>|User  whereId($value)
- * @method  static  Builder<static>|User  whereName($value)
+ * @method  static  Builder<static>|User  whereLastName($value)
  * @method  static  Builder<static>|User  wherePassword($value)
  * @method  static  Builder<static>|User  whereRememberToken($value)
  * @method  static  Builder<static>|User  whereUpdatedAt($value)
+ * @method  static  Builder<static>|User  whereUsername($value)
  *
  * @mixin Eloquent
  */
