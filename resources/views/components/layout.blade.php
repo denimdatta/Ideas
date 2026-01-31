@@ -22,7 +22,7 @@
             </style>
         @endif
     </head>
-    <body class="p-6 lg:p-8 items-center lg:justify-center min-h-screen h-full">
+    <body class="p-6 lg:p-8 items-center lg:justify-center min-h-screen h-full bg-gray-500">
         <!-- Include this script tag or install `@tailwindplus/elements` via npm: -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script> -->
         <!--
