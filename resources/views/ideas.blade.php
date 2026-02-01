@@ -38,7 +38,7 @@
                 </p>
                 <ul class="mt-6">
                     @foreach($ideas as $idea)
-                        <li class="text-sm mt-2">{{ $idea }}</li>
+                        <li class="text-sm mt-2">{{ $idea->description }} [{{ $idea->status->getDisplayName() }}]</li>
                     @endforeach
                 </ul>
             </div>
