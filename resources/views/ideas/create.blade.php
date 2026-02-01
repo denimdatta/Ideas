@@ -18,9 +18,7 @@
                            focus:outline-indigo-600 sm:text-sm/6" />
             </div>
 
-            @error('title')
-            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-            @enderror
+            <x-error name="title"/>
         </div>
 
         <div class="col-span-full">
@@ -34,6 +32,8 @@
                                 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
                                 focus:outline-indigo-600 sm:text-sm/6"></textarea>
             </div>
+
+            <x-error name="description"/>
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
