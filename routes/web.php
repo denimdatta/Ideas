@@ -16,6 +16,14 @@ Route::get('/ideas', function () {
     ]);
 });
 
+Route::get('/ideas/{id}', function ($id) {
+    $idea = Idea::find($id);
+
+    return view('ideas.show', [
+        'idea' => $idea,
+    ]);
+});
+
 Route::post('/ideas', function () {
     Idea::create([
         'description' => request('idea'),
