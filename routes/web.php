@@ -22,6 +22,7 @@ Route::get('/ideas/create', function () {
     return view('ideas.create');
 });
 
+// Store Idea
 Route::post('/ideas/create', function () {
     $idea = Idea::create([
         'title' => request('title'),

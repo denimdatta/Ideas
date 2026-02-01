@@ -39,10 +39,10 @@
         </div>
 
         <div class="col-span-full">
-            <label for="idea" class="block text-sm/6 font-medium text-gray-900">Describe Your Idea</label>
+            <label for="description" class="block text-sm/6 font-medium text-gray-900">Describe Your Idea</label>
             <div class="mt-2">
-                <textarea id="idea"
-                          name="idea"
+                <textarea id="description"
+                          name="description"
                           rows="3"
                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base
                                 text-gray-900 outline-1 -outline-offset-1 outline-gray-300
