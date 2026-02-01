@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->text('description')->comment('The idea description.');
             $table->string('status')->default('open')->comment('The idea status.');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate();
         });
     }
 
