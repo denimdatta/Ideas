@@ -10,7 +10,7 @@ Route::get('/', function () {
 
 // Get Ideas
 Route::get('/ideas', function () {
-    $ideas = Idea::all();
+    $ideas = Idea::all()->sortByDesc('created_at');
 
     return view('ideas.index', [
         'ideas' => $ideas,
