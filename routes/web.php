@@ -29,5 +29,6 @@ Route::post('/ideas', function () {
         'status' => IdeaStatus::PENDING,
     ]);
 
-    return redirect('/');
+    return redirect('/ideas')
+        ->with('success', 'Idea created successfully.');
 });

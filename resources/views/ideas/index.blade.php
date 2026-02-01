@@ -2,7 +2,15 @@
     <form method="POST" action="/ideas">
         @csrf
 
-        <p class="mb-3 text-sm/6 text-black font-bold">New Idea</p>
+        @if (session('success'))
+            <div role="status"
+                 class="inline-block w-auto mt-4 rounded-md bg-green-50 border border-green-200
+                        px-4 py-2 text-sm text-green-800 shadow-sm whitespace-nowrap">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <p class="mt-3 mb-3 text-sm/6 text-black font-bold">New Idea</p>
         <div class="col-span-full">
             <label for="title" class="block text-sm/6 font-medium text-gray-900">Title</label>
 
