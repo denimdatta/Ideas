@@ -17,6 +17,23 @@ Route::get('/ideas', function () {
     ]);
 });
 
+// Create Idea
+Route::get('/ideas/create', function () {
+    return view('ideas.create');
+});
+
+Route::post('/ideas/create', function () {
+    $idea = Idea::create([
+        'title' => request('title'),
+        'description' => request('idea'),
+        'status' => IdeaStatus::PENDING,
+    ]);
+
+    return redirect('/ideas/create')
+        ->with('create_success', 'Idea created successfully.')
+        ->with('idea_id', $idea->id);
+});
+
 // Get Idea
 Route::get('/ideas/{idea}', function (Idea $idea) {
     return view('ideas.show', [
