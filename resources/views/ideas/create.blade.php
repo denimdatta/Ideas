@@ -18,7 +18,7 @@
                            focus:outline-indigo-600 sm:text-sm/6" />
             </div>
 
-            <x-error name="title"/>
+            <x-forms.error name="title"/>
         </div>
 
         <div class="col-span-full">
@@ -33,7 +33,7 @@
                           rows="3">{{ old('description') }}</textarea>
             </div>
 
-            <x-error name="description"/>
+            <x-forms.error name="description"/>
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">

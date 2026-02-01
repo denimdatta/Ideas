@@ -29,7 +29,7 @@
                            focus:outline-indigo-600 sm:text-sm/6"/>
             </div>
 
-            <x-error name="title"/>
+            <x-forms.error name="title"/>
         </div>
 
         <div class="col-span-full">
@@ -43,9 +43,9 @@
                                 focus:outline-indigo-600 sm:text-sm/6"
                           rows="3">{{ old('description', $idea->description) }}</textarea>
             </div>
-        </div>
 
-        <x-error name="description"/>
+            <x-forms.error name="description"/>
+        </div>
 
         @php
             $selectedStatus = old('status', $idea->status->value);
@@ -70,7 +70,7 @@
                     </select>
                 </div>
 
-                <x-error name="status"/>
+                <x-forms.error name="status"/>
             </div>
 
             <div class="flex items-center gap-3">
