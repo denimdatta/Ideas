@@ -13,10 +13,10 @@ Route::get('/', function () {
 });
 
 Route::post('/ideas', function () {
-    $idea = Idea::factory()->create();
-    $idea->description = request('idea');
-    $idea->status = IdeaStatus::OPEN;
-    $idea->save();
-    
+    Idea::create([
+        'description' => request('idea'),
+        'status' => IdeaStatus::PENDING,
+    ]);
+
     return redirect('/');
 });
