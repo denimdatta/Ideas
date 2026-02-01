@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\IdeaStatus;
 use App\Models\Idea;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class IdeaController extends Controller
 {
@@ -33,6 +34,20 @@ class IdeaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:250',
+            ],
+            'description' => [
+                'required',
+                'string',
+                'min:20',
+            ],
+        ]);
+
         $idea = Idea::create([
             'title' => $request->title,
             'description' => $request->description,
@@ -69,6 +84,25 @@ class IdeaController extends Controller
      */
     public function update(Request $request, Idea $idea)
     {
+        $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'min:3',
+                'max:250',
+            ],
+            'description' => [
+                'required',
+                'string',
+                'min:20',
+            ],
+            'status' => [
+                'required',
+                'string',
+                Rule::in(array_map(fn ($case) => $case->value, IdeaStatus::cases())),
+            ],
+        ]);
+
         $idea->update([
             'title' => $request->title,
             'description' => $request->description,

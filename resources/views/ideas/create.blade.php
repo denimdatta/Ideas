@@ -4,13 +4,13 @@
 
         <p class="mt-3 mb-3 text-sm/6 text-black font-bold">New Idea</p>
         <div class="col-span-full">
-            <label for="title" class="block text-sm/6 font-medium text-gray-900">Title</label>
+            <label for="title" class="block text-sm/6 font-medium text-gray-900">Title (in 250 characters)</label>
 
             <div class="mt-2">
                 <input id="title"
                        name="title"
                        type="text"
-                       maxlength="255"
+                       value="{{ old('title') }}"
                        required
                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base
                            text-gray-900 outline-1 -outline-offset-1 outline-gray-300
@@ -18,9 +18,7 @@
                            focus:outline-indigo-600 sm:text-sm/6" />
             </div>
 
-            @error('title')
-            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-            @enderror
+            <x-error name="title"/>
         </div>
 
         <div class="col-span-full">
@@ -28,12 +26,14 @@
             <div class="mt-2">
                 <textarea id="description"
                           name="description"
-                          rows="3"
                           class="block w-full rounded-md bg-white px-3 py-1.5 text-base
                                 text-gray-900 outline-1 -outline-offset-1 outline-gray-300
                                 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
-                                focus:outline-indigo-600 sm:text-sm/6"></textarea>
+                                focus:outline-indigo-600 sm:text-sm/6"
+                          rows="3">{{ old('description') }}</textarea>
             </div>
+
+            <x-error name="description"/>
         </div>
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
