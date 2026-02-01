@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property  int         $id
+ * @property  string      $title        The idea title.
  * @property  string      $description  The idea description.
  * @property  IdeaStatus  $status       The idea status.
  * @property  Carbon      $created_at
@@ -25,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @method  static  Builder<static>|Idea  whereDescription($value)
  * @method  static  Builder<static>|Idea  whereId($value)
  * @method  static  Builder<static>|Idea  whereStatus($value)
+ * @method  static  Builder<static>|Idea  whereTitle($value)
  * @method  static  Builder<static>|Idea  whereUpdatedAt($value)
  *
  * @mixin Eloquent
