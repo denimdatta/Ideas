@@ -34,6 +34,8 @@ class Idea extends Model
     /** @use HasFactory<IdeaFactory> */
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     protected $casts = [
         'status' => IdeaStatus::class,
     ];
