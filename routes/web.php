@@ -24,13 +24,6 @@ Route::get('/ideas/{idea}', function (Idea $idea) {
     ]);
 });
 
-// Edit Idea
-Route::get('/ideas/{idea}/edit', function (Idea $idea) {
-    return view('ideas.edit', [
-        'idea' => $idea,
-    ]);
-});
-
 // Update Idea
 Route::patch('/ideas/{idea}', function (Idea $idea) {
     $idea->update([
@@ -40,7 +33,7 @@ Route::patch('/ideas/{idea}', function (Idea $idea) {
     ]);
 
     return redirect('/ideas/' . $idea->id)
-        ->with('success', 'Idea updated successfully.');
+        ->with('edit_success', 'Idea updated successfully.');
 });
 
 // Create Idea
@@ -61,4 +54,11 @@ Route::delete('/ideas/{idea}', function (Idea $idea) {
 
     return redirect('/ideas')
         ->with('delete_success', 'Idea deleted successfully.');
+});
+
+// Edit Idea
+Route::get('/ideas/{idea}/edit', function (Idea $idea) {
+    return view('ideas.edit', [
+        'idea' => $idea,
+    ]);
 });
