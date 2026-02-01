@@ -5,6 +5,10 @@ use App\Models\Idea;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    return view('index');
+});
+
+Route::get('/ideas', function () {
     $ideas = Idea::all();
 
     return view('ideas', [
