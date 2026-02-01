@@ -53,18 +53,6 @@ Route::patch('/ideas/{idea}', function (Idea $idea) {
         ->with('edit_success', 'Idea updated successfully.');
 });
 
-// Create Idea
-Route::post('/ideas', function () {
-    Idea::create([
-        'title' => request('title'),
-        'description' => request('idea'),
-        'status' => IdeaStatus::PENDING,
-    ]);
-
-    return redirect('/ideas')
-        ->with('success', 'Idea created successfully.');
-});
-
 // Delete Idea
 Route::delete('/ideas/{idea}', function (Idea $idea) {
     $idea->delete();
