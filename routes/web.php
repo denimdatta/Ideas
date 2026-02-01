@@ -1,70 +1,16 @@
 <?php
 
-use App\Enums\IdeaStatus;
-use App\Models\Idea;
+use App\Http\Controllers\IdeaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
 });
 
-// Get Ideas
-Route::get('/ideas', function () {
-    $ideas = Idea::all()->sortByDesc('created_at');
-
-    return view('ideas.index', [
-        'ideas' => $ideas,
-    ]);
-});
-
-// Create Idea
-Route::get('/ideas/create', function () {
-    return view('ideas.create');
-});
-
-// Store Idea
-Route::post('/ideas/create', function () {
-    $idea = Idea::create([
-        'title' => request('title'),
-        'description' => request('idea'),
-        'status' => IdeaStatus::PENDING,
-    ]);
-
-    return redirect('/ideas/create')
-        ->with('create_success', 'Idea created successfully.')
-        ->with('idea_id', $idea->id);
-});
-
-// Get Idea
-Route::get('/ideas/{idea}', function (Idea $idea) {
-    return view('ideas.show', [
-        'idea' => $idea,
-    ]);
-});
-
-// Update Idea
-Route::patch('/ideas/{idea}', function (Idea $idea) {
-    $idea->update([
-        'title' => request('title'),
-        'description' => request('idea'),
-        'status' => request('status'),
-    ]);
-
-    return redirect('/ideas/' . $idea->id)
-        ->with('edit_success', 'Idea updated successfully.');
-});
-
-// Delete Idea
-Route::delete('/ideas/{idea}', function (Idea $idea) {
-    $idea->delete();
-
-    return redirect('/ideas')
-        ->with('delete_success', 'Idea deleted successfully.');
-});
-
-// Edit Idea
-Route::get('/ideas/{idea}/edit', function (Idea $idea) {
-    return view('ideas.edit', [
-        'idea' => $idea,
-    ]);
-});
+Route::get('/ideas', [IdeaController::class, 'index']);
+Route::get('/ideas/create', [IdeaController::class, 'create']);
+Route::post('/ideas/create', [IdeaController::class, 'store']);
+Route::get('/ideas/{idea}', [IdeaController::class, 'show']);
+Route::patch('/ideas/{idea}', [IdeaController::class, 'update']);
+Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy']);
+Route::get('/ideas/{idea}/edit', [IdeaController::class, 'edit']);
