@@ -8,6 +8,12 @@
                         px-4 py-2 text-sm text-green-800 shadow-sm whitespace-nowrap">
                 {{ session('success') }}
             </div>
+        @elseif (session('delete_success'))
+            <div role="status"
+                 class="inline-block w-auto mt-4 rounded-md bg-red-50 border border-red-200
+                        px-4 py-2 text-sm text-red-800 shadow-sm whitespace-nowrap">
+                {{ session('delete_success') }}
+            </div>
         @endif
 
         <p class="mt-3 mb-3 text-sm/6 text-black font-bold">New Idea</p>
