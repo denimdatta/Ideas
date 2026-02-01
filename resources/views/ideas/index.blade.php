@@ -30,22 +30,22 @@
                 Save
             </button>
         </div>
-
-        @if (count($ideas))
-            <div class="mt-6 text-white">
-                <p class="font-bold">
-                    <a href="/ideas" class="underline">View all Ideas</a>
-                </p>
-                <ul class="mt-6">
-                    @foreach($ideas as $idea)
-                        <li class="text-sm mt-2">
-                            {{ $idea->title }}
-                            [{{ $idea->status->getDisplayName() }}]
-                            <a href="/ideas/{{ $idea->id }}" class="underline">View</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
     </form>
+    
+    @if (count($ideas))
+        <div class="mt-6 text-white">
+            <p class="font-bold">
+                <a href="/ideas" class="underline">View all Ideas</a>
+            </p>
+            <ul class="mt-6">
+                @foreach($ideas as $idea)
+                    <li class="text-sm mt-2">
+                        {{ $idea->title }}
+                        [{{ $idea->status->getDisplayName() }}]
+                        <a href="/ideas/{{ $idea->id }}" class="underline">View</a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </x-layout>
