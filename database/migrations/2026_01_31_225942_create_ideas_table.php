@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ideas', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->comment('The idea title.');
             $table->text('description')->comment('The idea description.');
             $table->string('status')->default('open')->comment('The idea status.');
             $table->timestamp('created_at')->useCurrent();
