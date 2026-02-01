@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\IdeaStatus;
-use App\Http\Requests\StoreIdeaRequest;
-use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Idea;
+use Illuminate\Http\Request;
 
 class IdeaController extends Controller
 {
@@ -14,7 +13,7 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $ideas = Idea::all()->sortByDesc('created_at');
+        $ideas = Idea::orderByDesc('created_at')->get();
 
         return view('ideas.index', [
             'ideas' => $ideas,
@@ -32,15 +31,15 @@ class IdeaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreIdeaRequest $request)
+    public function store(Request $request)
     {
         $idea = Idea::create([
             'title' => $request->title,
-            'description' => $request->idea,
+            'description' => $request->description,
             'status' => IdeaStatus::PENDING,
         ]);
 
-        return redirect('/ideas/create')
+        return redirect('/ideas')
             ->with('create_success', 'Idea created successfully.')
             ->with('idea_id', $idea->id);
     }
@@ -68,15 +67,15 @@ class IdeaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateIdeaRequest $request, Idea $idea)
+    public function update(Request $request, Idea $idea)
     {
         $idea->update([
             'title' => $request->title,
-            'description' => $request->idea,
+            'description' => $request->description,
             'status' => $request->status,
         ]);
 
-        return redirect('/ideas/' . $idea->id)
+        return redirect("/ideas/$idea->id")
             ->with('edit_success', 'Idea updated successfully.');
     }
 

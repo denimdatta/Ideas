@@ -9,6 +9,21 @@
                 View All Ideas
             </a>
 
+            @if (session('create_success'))
+                <div role="status"
+                     class="inline-block w-auto mt-4 rounded-md bg-green-50 border border-green-200
+                        px-4 py-2 text-sm text-green-800 shadow-sm whitespace-nowrap">
+                    {{ session('create_success') }}
+                    <a href="/ideas/{{ session('idea_id') }}" class="underline">View</a>
+                </div>
+            @elseif (session('delete_success'))
+                <div role="status"
+                     class="inline-block w-auto mt-4 rounded-md bg-red-50 border border-red-200
+                        px-4 py-2 text-sm text-red-800 shadow-sm whitespace-nowrap">
+                    {{ session('delete_success') }}
+                </div>
+            @endif
+
             <a href="{{ url('/ideas/create') }}"
                aria-label="Create Idea"
                class="inline-flex items-center rounded-md bg-green-600 px-3 py-2
