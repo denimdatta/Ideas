@@ -48,13 +48,12 @@
             </div>
         </div>
 
+        @php
+            $selectedStatus = old('status', $idea->status->value);
+        @endphp
+
         <div class="mt-4 flex items-start justify-between gap-x-6">
             <div class="w-2/3">
-
-                @php
-                    $selectedStatus = old('status', $idea->status->value);
-                @endphp
-
                 <div class="flex items-center gap-3">
                     <label for="status" class="text-sm/6 font-medium text-gray-900">Status</label>
 
@@ -77,13 +76,22 @@
                 @enderror
             </div>
 
-            <div class="flex items-center">
-                <button type="submit"
-                        class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold
-                               text-white shadow-xs hover:bg-green-800 focus-visible:outline-2
-                               focus-visible:outline-offset-2 focus-visible:outline-green-600">
-                    Update
-                </button>
+            <div class="flex items-center gap-3">
+                <!-- Cancel -->
+                <a href="{{ url('/ideas/'.$idea->id) }}"
+                   class="inline-flex items-center rounded-md bg-gray-100 px-3 py-2 text-sm
+                        font-medium text-gray-700 hover:bg-gray-400 focus:outline-2
+                        focus:outline-offset-2 focus:outline-gray-300">
+                    Cancel
+                </a>
+
+                <!-- Update -->
+                <div class="flex items-center">
+                    <button type="submit"
+                            class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                        Update
+                    </button>
+                </div>
             </div>
         </div>
     </form>
