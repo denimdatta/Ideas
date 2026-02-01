@@ -22,6 +22,12 @@ Route::get('/ideas/{idea}', function (Idea $idea) {
     ]);
 });
 
+Route::get('/ideas/{idea}/edit', function (Idea $idea) {
+    return view('ideas.edit', [
+        'idea' => $idea,
+    ]);
+});
+
 Route::post('/ideas', function () {
     Idea::create([
         'title' => request('title'),
