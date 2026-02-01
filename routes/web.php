@@ -16,9 +16,7 @@ Route::get('/ideas', function () {
     ]);
 });
 
-Route::get('/ideas/{id}', function ($id) {
-    $idea = Idea::find($id);
-
+Route::get('/ideas/{idea}', function (Idea $idea) {
     return view('ideas.show', [
         'idea' => $idea,
     ]);
