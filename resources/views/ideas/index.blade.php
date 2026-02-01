@@ -38,7 +38,11 @@
                 </p>
                 <ul class="mt-6">
                     @foreach($ideas as $idea)
-                        <li class="text-sm mt-2">{{ $idea->description }} [{{ $idea->status->getDisplayName() }}]</li>
+                        <li class="text-sm mt-2">
+                            {{ $idea->title }}
+                            [{{ $idea->status->getDisplayName() }}]
+                            <a href="/ideas/{{ $idea->id }}" class="underline">View</a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
