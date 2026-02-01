@@ -1,7 +1,8 @@
 @php use App\Enums\IdeaStatus; @endphp
 <x-layout>
-    <form method="POST" action="/ideas">
+    <form method="POST" action="/ideas/{{ $idea->id }}">
         @csrf
+        @method('PATCH')
 
         @if (session('success'))
             <div role="status"

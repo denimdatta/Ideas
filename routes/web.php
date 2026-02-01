@@ -8,6 +8,7 @@ Route::get('/', function () {
     return view('index');
 });
 
+// Get Ideas
 Route::get('/ideas', function () {
     $ideas = Idea::all();
 
@@ -16,16 +17,30 @@ Route::get('/ideas', function () {
     ]);
 });
 
+// Get Idea
 Route::get('/ideas/{idea}', function (Idea $idea) {
     return view('ideas.show', [
         'idea' => $idea,
     ]);
 });
 
+// Edit Idea
 Route::get('/ideas/{idea}/edit', function (Idea $idea) {
     return view('ideas.edit', [
         'idea' => $idea,
     ]);
+});
+
+// Update Idea
+Route::patch('/ideas/{idea}', function (Idea $idea) {
+    $idea->update([
+        'title' => request('title'),
+        'description' => request('idea'),
+        'status' => request('status'),
+    ]);
+
+    return redirect('/ideas/' . $idea->id)
+        ->with('success', 'Idea updated successfully.');
 });
 
 Route::post('/ideas', function () {
