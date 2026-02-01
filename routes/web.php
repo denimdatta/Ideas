@@ -24,6 +24,7 @@ Route::get('/ideas/{idea}', function (Idea $idea) {
 
 Route::post('/ideas', function () {
     Idea::create([
+        'title' => request('title'),
         'description' => request('idea'),
         'status' => IdeaStatus::PENDING,
     ]);
