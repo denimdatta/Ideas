@@ -13,7 +13,7 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
     </head>
     <body class="">
-        <x-nav.layout/>
+        <x-navbar.base/>
 
         <div class="p-6 lg:p-8 items-center lg:justify-center min-h-screen h-full">
             <header class="relative">

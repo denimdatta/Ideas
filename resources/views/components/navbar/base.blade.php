@@ -8,10 +8,10 @@
                     tabindex="-1"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li>
-                    <x-nav.link href="/" :active="request()->is('/')">Home</x-nav.link>
+                    <x-navbar.link href="/" :active="request()->is('/')">Home</x-navbar.link>
                 </li>
                 <li>
-                    <x-nav.link href="{{ route('ideas.index') }}" :active="request()->routeIs('ideas.*')">Ideas</x-nav.link>
+                    <x-navbar.link href="{{ route('ideas.index') }}" :active="request()->routeIs('ideas.*')">Ideas</x-navbar.link>
                 </li>
             </ul>
         </div>
@@ -26,10 +26,10 @@
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
             <li>
-                <x-nav.link href="/" :active="request()->is('/')">Home</x-nav.link>
+                <x-navbar.link href="/" :active="request()->is('/')">Home</x-navbar.link>
             </li>
             <li>
-                <x-nav.link href="{{ route('ideas.index') }}" :active="request()->routeIs('ideas.*')">Ideas</x-nav.link>
+                <x-navbar.link href="{{ route('ideas.index') }}" :active="request()->routeIs('ideas.*')">Ideas</x-navbar.link>
             </li>
         </ul>
     </div>
