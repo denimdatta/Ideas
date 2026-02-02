@@ -1,5 +1,5 @@
 <x-layout title="Your Ideas">
-    <div class="mt-6 text-white">
+    <div class="mt-6">
         <div class="mb-4 flex items-center justify-between">
             <a href="{{ route('ideas.index') }}"
                aria-label="View Idea"
@@ -33,7 +33,7 @@
             </a>
         </div>
 
-        <div class="mt-6 text-white">
+        <div class="mt-6">
             @if($ideas->isEmpty())
                 <p>No ideas yet.</p>
             @else
