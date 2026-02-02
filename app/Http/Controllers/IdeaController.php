@@ -40,7 +40,8 @@ class IdeaController extends Controller
             'status' => IdeaStatus::PENDING,
         ]);
 
-        return redirect('/ideas')
+        return redirect()
+            ->route('ideas.index')
             ->with('create_success', 'Idea created successfully.')
             ->with('idea_id', $idea->id);
     }
@@ -76,7 +77,8 @@ class IdeaController extends Controller
             'status' => IdeaStatus::from($request->status),
         ]);
 
-        return redirect("/ideas/$idea->id")
+        return redirect()
+            ->route('ideas.show', $idea)
             ->with('edit_success', 'Idea updated successfully.');
     }
 
@@ -87,7 +89,8 @@ class IdeaController extends Controller
     {
         $idea->delete();
 
-        return redirect('/ideas')
+        return redirect()
+            ->route('ideas.index')
             ->with('delete_success', 'Idea deleted successfully.');
     }
 }

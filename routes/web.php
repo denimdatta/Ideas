@@ -7,10 +7,10 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/ideas', [IdeaController::class, 'index']);
-Route::get('/ideas/create', [IdeaController::class, 'create']);
-Route::post('/ideas', [IdeaController::class, 'store']);
-Route::get('/ideas/{idea}', [IdeaController::class, 'show']);
-Route::get('/ideas/{idea}/edit', [IdeaController::class, 'edit']);
-Route::patch('/ideas/{idea}', [IdeaController::class, 'update']);
-Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy']);
+Route::get('/ideas', [IdeaController::class, 'index'])->name('ideas.index');
+Route::get('/ideas/create', [IdeaController::class, 'create'])->name('ideas.create');
+Route::post('/ideas', [IdeaController::class, 'store'])->name('ideas.store');
+Route::get('/ideas/{idea}', [IdeaController::class, 'show'])->name('ideas.show');
+Route::get('/ideas/{idea}/edit', [IdeaController::class, 'edit'])->name('ideas.edit');
+Route::patch('/ideas/{idea}', [IdeaController::class, 'update'])->name('ideas.update');
+Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('ideas.destroy');

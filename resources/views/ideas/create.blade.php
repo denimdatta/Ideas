@@ -1,5 +1,5 @@
 <x-layout title="Create New Idea">
-    <form method="POST" action="/ideas">
+    <form method="POST" action="{{ route('ideas.store') }}">
         @csrf
 
         <p class="mt-3 mb-3 text-sm/6 text-black font-bold">New Idea</p>

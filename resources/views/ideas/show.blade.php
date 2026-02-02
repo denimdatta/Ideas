@@ -1,6 +1,6 @@
 <x-layout title="Idea: {{ $idea->title }}">
     <div class="mb-4 flex items-center justify-between">
-        <a href="{{ url('/ideas') }}"
+        <a href="{{ route('ideas.index') }}"
            aria-label="Back to ideas"
            class="inline-flex items-center text-gray-600 hover:text-gray-900">
             <span class="mr-2 text-lg" aria-hidden="true">←</span>
@@ -8,7 +8,7 @@
         </a>
 
         <div class="flex items-center gap-3">
-            <a href="{{ url('/ideas/' . $idea->id . '/edit') }}"
+            <a href="{{ route('ideas.edit', $idea) }}"
                aria-label="Edit idea"
                class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2
            text-sm font-medium text-white hover:bg-indigo-700 focus:outline-2
@@ -16,7 +16,7 @@
                 Edit
             </a>
 
-            <form method="POST" action="{{ url('/ideas/' . $idea->id) }}">
+            <form method="POST" action="{{ route('ideas.destroy', $idea) }}">
                 @csrf
                 @method('DELETE')
                 <button type="submit"

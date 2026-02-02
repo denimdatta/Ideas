@@ -3,7 +3,7 @@
 @endphp
 
 <x-layout title="Edit: {{ $idea->title }}">
-    <form method="POST" action="/ideas/{{ $idea->id }}">
+    <form method="POST" action="{{ route('ideas.update', $idea) }}">
         @csrf
         @method('PATCH')
 
@@ -78,7 +78,7 @@
 
             <div class="flex items-center gap-3">
                 <!-- Cancel -->
-                <a href="{{ url('/ideas/'.$idea->id) }}"
+                <a href="{{ route('ideas.show', $idea) }}"
                    class="inline-flex items-center rounded-md bg-gray-100 px-3 py-2 text-sm
                         font-medium text-gray-700 hover:bg-gray-400 focus:outline-2
                         focus:outline-offset-2 focus:outline-gray-300">

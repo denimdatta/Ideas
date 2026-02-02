@@ -26,7 +26,7 @@
                             <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
                         </li>
                         <li>
-                            <x-nav-link href="/ideas" :active="request()->is('ideas')">Ideas</x-nav-link>
+                            <x-nav-link href="{{ route('ideas.index') }}" :active="request()->routeIs('ideas.*')">Ideas</x-nav-link>
                         </li>
                     </ul>
                 </div>
@@ -44,7 +44,7 @@
                         <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
                     </li>
                     <li>
-                        <x-nav-link href="/ideas" :active="request()->is('ideas')">Ideas</x-nav-link>
+                        <x-nav-link href="{{ route('ideas.index') }}" :active="request()->routeIs('ideas.*')">Ideas</x-nav-link>
                     </li>
                 </ul>
             </div>
