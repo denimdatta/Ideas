@@ -16,30 +16,17 @@
                 Edit
             </a>
 
-            <!-- Delete (uses JS to avoid nested forms) -->
-            <button type="button"
-                    onclick="if(confirm('Are you sure you want to delete this idea?')) {
-							const f=document.createElement('form');
-							f.method='POST';
-							f.action='/ideas/{{ $idea->id }}';
-							const t=document.createElement('input');
-							t.type='hidden';
-							t.name='_token';
-							t.value='{{ csrf_token() }}';
-							f.appendChild(t);
-							const m=document.createElement('input');
-							m.type='hidden';
-							m.name='_method';
-							m.value='DELETE';
-							f.appendChild(m);
-							document.body.appendChild(f);
-							f.submit();
-						}"
-                    class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold
+            <form method="POST" action="{{ url('/ideas/' . $idea->id) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                        onclick="return confirm('Are you sure you want to delete this idea?');"
+                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold
                             text-white shadow-xs hover:bg-red-800 focus-visible:outline-2
                             focus-visible:outline-offset-2 focus-visible:outline-red-600">
-                Delete
-            </button>
+                    Delete
+                </button>
+            </form>
         </div>
     </div>
 
