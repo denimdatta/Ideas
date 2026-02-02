@@ -1,5 +1,8 @@
-@php use App\Enums\IdeaStatus; @endphp
-<x-layout>
+@php
+    use App\Enums\IdeaStatus;
+@endphp
+
+<x-layout title="Edit: {{ $idea->title }}">
     <form method="POST" action="/ideas/{{ $idea->id }}">
         @csrf
         @method('PATCH')

@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Your Ideas">
     <div class="mt-6 text-white">
         <div class="mb-4 flex items-center justify-between">
             <a href="{{ url('/ideas') }}"

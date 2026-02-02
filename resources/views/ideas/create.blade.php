@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Create New Idea">
     <form method="POST" action="/ideas">
         @csrf
 

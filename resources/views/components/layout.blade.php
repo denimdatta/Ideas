@@ -1,3 +1,5 @@
+@props(['title' => ''])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -53,7 +55,7 @@
         <div class="p-6 lg:p-8 items-center lg:justify-center min-h-screen h-full">
             <header class="relative bg-white shadow-sm">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ $title }}</h1>
                 </div>
             </header>
             <main>

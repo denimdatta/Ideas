@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Idea: {{ $idea->title }}">
     <div class="mb-4 flex items-center justify-between">
         <a href="{{ url('/ideas') }}"
            aria-label="Back to ideas"
