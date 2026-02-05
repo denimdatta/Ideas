@@ -33,6 +33,7 @@ class StoreIdeaRequest extends FormRequest
                 'required',
                 'string',
                 'min:20',
+                'max:1500',
             ],
         ];
     }

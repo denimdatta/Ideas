@@ -6,6 +6,7 @@ use App\Enums\IdeaStatus;
 use App\Models\Idea;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
+use Str;
 use Tests\TestCase;
 
 class IdeaControllerTest extends TestCase
@@ -70,6 +71,22 @@ class IdeaControllerTest extends TestCase
             'description' => 'Short', // too short
         ]);
 
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors(['status']);
+        $response->assertSessionHasErrors(['title', 'description']);
+        $this->assertDatabaseCount('ideas', 0);
+    }
+
+    #[Test]
+    public function store_fails_with_long_title_and_description()
+    {
+        $response = $this->post('/ideas', [
+            'title' => Str::random(251), // too long
+            'description' => Str::random(1501), // too long
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors(['status']);
         $response->assertSessionHasErrors(['title', 'description']);
         $this->assertDatabaseCount('ideas', 0);
     }
@@ -126,6 +143,32 @@ class IdeaControllerTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['title', 'description', 'status']);
+        $this->assertDatabaseHas('ideas', [
+            'id' => $idea->id,
+            'title' => 'Original Title',
+            'description' => 'Original description that is long enough.',
+            'status' => IdeaStatus::PENDING->value,
+        ]);
+    }
+
+    #[Test]
+    public function update_fails_with_long_title_and_description_and_keeps_original_values()
+    {
+        $idea = Idea::factory()->create([
+            'title' => 'Original Title',
+            'description' => 'Original description that is long enough.',
+            'status' => IdeaStatus::PENDING->value,
+        ]);
+
+        $response = $this->patch("/ideas/{$idea->id}", [
+            'title' => Str::random(251), // too long
+            'description' => Str::random(1501), // too long
+            'status' => IdeaStatus::CANCELED->value,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors(['status']);
+        $response->assertSessionHasErrors(['title', 'description']);
         $this->assertDatabaseHas('ideas', [
             'id' => $idea->id,
             'title' => 'Original Title',
