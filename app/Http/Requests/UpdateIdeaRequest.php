@@ -38,8 +38,7 @@ class UpdateIdeaRequest extends FormRequest
             ],
             'status' => [
                 'required',
-                'string',
-                Rule::in(array_map(fn ($case) => $case->value, IdeaStatus::cases())),
+                Rule::enum(IdeaStatus::class),
             ],
         ];
     }
