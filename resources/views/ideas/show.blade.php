@@ -38,5 +38,26 @@
         </div>
     @endif
 
-    <x-json-card :data="$idea" />
+    <div class="card bg-sky-200 shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">{{ $idea->title }}</h2>
+            <hr class="w-full h-0.5 bg-gray-800 border-0">
+            <p class="card-description w-full">
+                {{ $idea->description }}
+            </p>
+
+            <hr class="w-full">
+
+            <div class="grid grid-cols-2">
+                <small class="p-2 border-2 border-blue-400 rounded-lg w-fit justify-self-start">
+                    <strong>{{ $idea->status->getDisplayName() }}</strong>
+                </small>
+                <small class="w-fit justify-self-end text-right">
+                    <i><strong>Last Updated: </strong>{{ $idea->updated_at }}</i>
+                    <br/>
+                    <i><strong>Created: </strong>{{ $idea->created_at }}</i>
+                </small>
+            </div>
+        </div>
+    </div>
 </x-layout>
