@@ -68,6 +68,10 @@ class IdeaController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * 1. Update the idea in the database.
+     * 2. Redirect back to the idea show page with a success message.
+     *
+     * @return  \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateIdeaRequest $request, Idea $idea)
     {
@@ -84,6 +88,8 @@ class IdeaController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @return  \Illuminate\Http\RedirectResponse
      */
     public function destroy(Idea $idea)
     {
@@ -96,6 +102,8 @@ class IdeaController extends Controller
 
     /**
      * Remove all ideas from storage.
+     *
+     * @return  \Illuminate\Http\RedirectResponse
      */
     public function destroyAll()
     {
