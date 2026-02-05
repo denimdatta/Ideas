@@ -8,11 +8,7 @@
         </a>
 
         <div class="flex items-center gap-3">
-            <a href="{{ route('ideas.edit', $idea) }}"
-               aria-label="Edit idea"
-               class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2
-           text-sm font-medium text-white hover:bg-indigo-700 focus:outline-2
-           focus:outline-offset-2 focus:outline-indigo-600">
+            <a href="{{ route('ideas.edit', $idea) }}" class="inline-flex items-center btn btn-primary">
                 Edit
             </a>
 
@@ -21,9 +17,7 @@
                 @method('DELETE')
                 <button type="submit"
                         onclick="return confirm('Are you sure you want to delete this idea?');"
-                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold
-                            text-white shadow-xs hover:bg-red-800 focus-visible:outline-2
-                            focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                        class="btn btn-error">
                     Delete
                 </button>
             </form>

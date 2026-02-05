@@ -8,9 +8,7 @@
                         onclick="return confirm('Are you sure?\nThis will delete all ideas')
                                 &&
                                 confirm('Last Warning before deleting all ideas\nNo turning back\nAre you absolutely sure?');"
-                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold
-                            text-white shadow-xs hover:bg-red-800 focus-visible:outline-2
-                            focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                        class="btn btn-error">
                     Delete All Ideas
                 </button>
             </form>
@@ -38,9 +36,7 @@
 
             <a href="{{ route('ideas.create') }}"
                aria-label="Create Idea"
-               class="inline-flex items-center rounded-md bg-green-600 px-3 py-2
-                    text-sm font-medium text-white hover:bg-green-700 focus:outline-2
-                    focus:outline-offset-2 focus:outline-green-600">
+               class="inline-flex items-center btn btn-success">
                 Create New Idea
             </a>
         </div>
