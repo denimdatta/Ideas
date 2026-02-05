@@ -1,13 +1,19 @@
 <x-layout title="Your Ideas">
     <div class="mt-6">
         <div class="mb-4 flex items-center justify-between">
-            <a href="{{ route('ideas.index') }}"
-               aria-label="View Idea"
-               class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2
-                    text-sm font-medium text-white hover:bg-indigo-700 focus:outline-2
-                    focus:outline-offset-2 focus:outline-indigo-600">
-                View All Ideas
-            </a>
+            <form method="POST" action="{{ route('ideas.destroy.all') }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit"
+                        onclick="return confirm('Are you sure?\nThis will delete all ideas')
+                                &&
+                                confirm('Last Warning before deleting all ideas\nNo turning back\nAre you absolutely sure?');"
+                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold
+                            text-white shadow-xs hover:bg-red-800 focus-visible:outline-2
+                            focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                    Delete All Ideas
+                </button>
+            </form>
 
             @if (session('create_success'))
                 <div role="status"
@@ -21,6 +27,12 @@
                      class="inline-block w-auto mt-4 rounded-md bg-red-50 border border-red-200
                         px-4 py-2 text-sm text-red-800 shadow-sm whitespace-nowrap">
                     {{ session('delete_success') }}
+                </div>
+            @elseif (session('purge_success'))
+                <div role="status"
+                     class="inline-block w-auto mt-4 rounded-md bg-red-50 border border-red-400
+                        px-4 py-2 text-sm text-red-950 shadow-sm whitespace-nowrap">
+                    {{ session('purge_success') }}
                 </div>
             @endif
 

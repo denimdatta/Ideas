@@ -187,4 +187,15 @@ class IdeaControllerTest extends TestCase
         $response->assertRedirect('/ideas');
         $this->assertDatabaseMissing('ideas', ['id' => $idea->id]);
     }
+
+    #[Test]
+    public function destroy_all_deletes_all_ideas()
+    {
+        Idea::factory()->count(10)->create();
+
+        $response = $this->delete('/ideas');
+
+        $response->assertRedirect('/ideas');
+        $this->assertDatabaseCount('ideas', 0);
+    }
 }

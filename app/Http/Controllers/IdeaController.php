@@ -93,4 +93,16 @@ class IdeaController extends Controller
             ->route('ideas.index')
             ->with('delete_success', 'Idea deleted successfully.');
     }
+
+    /**
+     * Remove all ideas from storage.
+     */
+    public function destroyAll()
+    {
+        Idea::query()->delete();
+
+        return redirect()
+            ->route('ideas.index')
+            ->with('purge_success', 'All ideas deleted successfully.');
+    }
 }
