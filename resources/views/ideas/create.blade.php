@@ -12,10 +12,7 @@
                        type="text"
                        value="{{ old('title') }}"
                        required
-                       class="block w-full rounded-md bg-white px-3 py-1.5 text-base
-                           text-gray-900 outline-1 -outline-offset-1 outline-gray-300
-                           placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
-                           focus:outline-indigo-600 sm:text-sm/6" />
+                       class="input w-full @error('title') input-error @enderror"/>
             </div>
 
             <x-forms.error name="title"/>
@@ -26,10 +23,7 @@
             <div class="mt-2">
                 <textarea id="description"
                           name="description"
-                          class="block w-full rounded-md bg-white px-3 py-1.5 text-base
-                                text-gray-900 outline-1 -outline-offset-1 outline-gray-300
-                                placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
-                                focus:outline-indigo-600 sm:text-sm/6"
+                          class="textarea w-full @error('description') textarea-error @enderror"
                           rows="3">{{ old('description') }}</textarea>
             </div>
 
