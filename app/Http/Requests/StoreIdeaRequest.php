@@ -35,6 +35,7 @@ class StoreIdeaRequest extends FormRequest
                 'min:20',
                 'max:1500',
             ],
+            'status' => ['prohibited'],
         ];
     }
 }

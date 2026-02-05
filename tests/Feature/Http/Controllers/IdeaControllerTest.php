@@ -69,11 +69,11 @@ class IdeaControllerTest extends TestCase
         $response = $this->post('/ideas', [
             'title' => 'No', // too short
             'description' => 'Short', // too short
+            'status' => 'random',
         ]);
 
         $response->assertStatus(302);
-        $response->assertSessionDoesntHaveErrors(['status']);
-        $response->assertSessionHasErrors(['title', 'description']);
+        $response->assertSessionHasErrors(['title', 'description', 'status']);
         $this->assertDatabaseCount('ideas', 0);
     }
 
@@ -83,11 +83,11 @@ class IdeaControllerTest extends TestCase
         $response = $this->post('/ideas', [
             'title' => Str::random(251), // too long
             'description' => Str::random(1501), // too long
+            'status' => IdeaStatus::PENDING->value,
         ]);
 
         $response->assertStatus(302);
-        $response->assertSessionDoesntHaveErrors(['status']);
-        $response->assertSessionHasErrors(['title', 'description']);
+        $response->assertSessionHasErrors(['title', 'description', 'status']);
         $this->assertDatabaseCount('ideas', 0);
     }
 
