@@ -113,7 +113,8 @@ class IdeaController extends Controller
      */
     public function destroyAll()
     {
-        Idea::query()->delete();
+        $user = auth()->user();
+        $user->ideas()->delete();
 
         return redirect()
             ->route('ideas.index')
