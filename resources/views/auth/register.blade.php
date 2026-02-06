@@ -8,34 +8,32 @@
             <div class="mb-4 grid grid-cols-2 gap-4">
                 <div class="flex flex-col col-span-2 space-y-1">
                     <label class="label" for="username">Username</label>
-                    <input class="input  w-full" placeholder="Username" required/>
+                    <input id="username" name="username" class="input w-full" placeholder="Username" value="{{ old('username') }}" required />
                 </div>
 
                 <div class="flex flex-col space-y-1">
                     <label class="label" for="first_name">First Name</label>
-                    <input class="input" placeholder="Given Name" required/>
+                    <input id="first_name" name="first_name" class="input" placeholder="Given Name" value="{{ old('first_name') }}" required />
                 </div>
                 <div class="flex flex-col space-y-1">
                     <label class="label" for="last_name">Last Name</label>
-                    <input class="input" placeholder="Family Name"/>
+                    <input id="last_name" name="last_name" class="input" placeholder="Family Name" value="{{ old('last_name') }}" />
                 </div>
                 <div class="flex flex-col space-y-1">
-
                     <label class="label" for="email">Email</label>
-                    <input type="email" class="input" placeholder="Email" required/>
+                    <input id="email" name="email" type="email" class="input" placeholder="Email" value="{{ old('email') }}" required />
                 </div>
                 <div class="flex flex-col space-y-1">
                     <label class="label" for="email_confirmation">Confirm Email</label>
-                    <input type="email" class="input" placeholder="Confirm Email" required/>
+                    <input id="email_confirmation" name="email_confirmation" type="email" class="input" placeholder="Confirm Email" required />
                 </div>
                 <div class="flex flex-col space-y-1">
-
                     <label class="label" for="password">Password</label>
-                    <input type="password" class="input" placeholder="Password" required/>
+                    <input id="password" name="password" type="password" class="input" placeholder="Password" required />
                 </div>
                 <div class="flex flex-col space-y-1">
                     <label class="label" for="password_confirmation">Confirm Password</label>
-                    <input type="password" class="input" placeholder="Confirm Password" required/>
+                    <input id="password_confirmation" name="password_confirmation" type="password" class="input" placeholder="Confirm Password" required />
                 </div>
             </div>
 
