@@ -206,12 +206,23 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function destroy_all_deletes_all_ideas()
     {
-        Idea::factory()->count(10)->create();
+        $userIdeas = Idea::factory()->count(3)->create([
+            'user_id' => $this->user->id,
+        ]);
+        $otherIdeas = Idea::factory()->count(5)->create();
 
         $response = $this->actingAs($this->user)->delete('/ideas');
 
         $response->assertRedirect('/ideas');
-        $this->assertDatabaseCount('ideas', 0);
+
+        // user's ideas must be deleted
+        foreach ($userIdeas as $idea) {
+            $this->assertDatabaseMissing('ideas', ['id' => $idea->id]);
+        }
+
+        // other users' ideas must remain
+        $this->assertDatabaseCount('ideas', $otherIdeas->count());
+        $this->assertDatabaseHas('ideas', ['id' => $otherIdeas->first()->id]);
     }
 
     #[Test]
