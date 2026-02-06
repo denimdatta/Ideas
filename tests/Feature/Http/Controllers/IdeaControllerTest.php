@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\IdeaStatus;
 use App\Models\Idea;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Str;
@@ -13,12 +14,21 @@ class IdeaControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+    }
+
     #[Test]
     public function index_displays_all_ideas()
     {
         $ideas = Idea::factory()->count(2)->create();
 
-        $response = $this->get('/ideas');
+        $response = $this->actingAs($this->user)->get('/ideas');
 
         $response->assertStatus(200);
         $response->assertSee($ideas->first()->title);
@@ -30,7 +40,7 @@ class IdeaControllerTest extends TestCase
     {
         $idea = Idea::factory()->create();
 
-        $response = $this->get("/ideas/{$idea->id}");
+        $response = $this->actingAs($this->user)->get("/ideas/{$idea->id}");
 
         $response->assertStatus(200);
         $response->assertSee($idea->title);
@@ -40,7 +50,7 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function create_displays_form()
     {
-        $response = $this->get('/ideas/create');
+        $response = $this->actingAs($this->user)->get('/ideas/create');
 
         $response->assertStatus(200);
         $response->assertViewIs('ideas.create');
@@ -50,7 +60,7 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function store_creates_new_idea_with_valid_data()
     {
-        $response = $this->post('/ideas', [
+        $response = $this->actingAs($this->user)->post('/ideas', [
             'title' => 'New Idea Title',
             'description' => 'A sufficiently long description for the new idea.',
         ]);
@@ -66,7 +76,7 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function store_fails_with_invalid_data()
     {
-        $response = $this->post('/ideas', [
+        $response = $this->actingAs($this->user)->post('/ideas', [
             'title' => 'No', // too short
             'description' => 'Short', // too short
             'status' => 'random',
@@ -80,7 +90,7 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function store_fails_with_long_title_and_description()
     {
-        $response = $this->post('/ideas', [
+        $response = $this->actingAs($this->user)->post('/ideas', [
             'title' => Str::random(251), // too long
             'description' => Str::random(1501), // too long
             'status' => IdeaStatus::PENDING->value,
@@ -96,7 +106,7 @@ class IdeaControllerTest extends TestCase
     {
         $idea = Idea::factory()->create();
 
-        $response = $this->get("/ideas/{$idea->id}/edit");
+        $response = $this->actingAs($this->user)->get("/ideas/{$idea->id}/edit");
 
         $response->assertStatus(200);
         $response->assertViewIs('ideas.edit');
@@ -111,7 +121,7 @@ class IdeaControllerTest extends TestCase
     {
         $idea = Idea::factory()->create();
 
-        $response = $this->patch("/ideas/{$idea->id}", [
+        $response = $this->actingAs($this->user)->patch("/ideas/{$idea->id}", [
             'title' => 'Updated Title',
             'description' => 'An updated description that is long enough.',
             'status' => IdeaStatus::COMPLETED->value,
@@ -135,7 +145,7 @@ class IdeaControllerTest extends TestCase
             'status' => IdeaStatus::PENDING->value,
         ]);
 
-        $response = $this->patch("/ideas/{$idea->id}", [
+        $response = $this->actingAs($this->user)->patch("/ideas/{$idea->id}", [
             'title' => '', // invalid
             'description' => '', // invalid
             'status' => 'invalid_status', // invalid
@@ -160,7 +170,7 @@ class IdeaControllerTest extends TestCase
             'status' => IdeaStatus::PENDING->value,
         ]);
 
-        $response = $this->patch("/ideas/{$idea->id}", [
+        $response = $this->actingAs($this->user)->patch("/ideas/{$idea->id}", [
             'title' => Str::random(251), // too long
             'description' => Str::random(1501), // too long
             'status' => IdeaStatus::CANCELED->value,
@@ -182,7 +192,7 @@ class IdeaControllerTest extends TestCase
     {
         $idea = Idea::factory()->create();
 
-        $response = $this->delete("/ideas/{$idea->id}");
+        $response = $this->actingAs($this->user)->delete("/ideas/{$idea->id}");
 
         $response->assertRedirect('/ideas');
         $this->assertDatabaseMissing('ideas', ['id' => $idea->id]);
@@ -193,7 +203,7 @@ class IdeaControllerTest extends TestCase
     {
         Idea::factory()->count(10)->create();
 
-        $response = $this->delete('/ideas');
+        $response = $this->actingAs($this->user)->delete('/ideas');
 
         $response->assertRedirect('/ideas');
         $this->assertDatabaseCount('ideas', 0);
