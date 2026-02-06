@@ -213,4 +213,97 @@ class IdeaControllerTest extends TestCase
         $response->assertRedirect('/ideas');
         $this->assertDatabaseCount('ideas', 0);
     }
+
+    #[Test]
+    public function guests_are_redirected_from_index()
+    {
+        $response = $this->get('/ideas');
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
+    public function guests_cannot_view_single_idea()
+    {
+        $idea = Idea::factory()->create();
+
+        $response = $this->get("/ideas/{$idea->id}");
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
+    public function guests_cannot_view_create_form()
+    {
+        $response = $this->get('/ideas/create');
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
+    public function guests_cannot_store_new_idea()
+    {
+        $response = $this->post('/ideas', [
+            'title' => 'Guest Idea',
+            'description' => 'This should not be created by a guest.',
+            'status' => IdeaStatus::PENDING->value,
+        ]);
+
+        $response->assertRedirect('/login');
+        $this->assertDatabaseCount('ideas', 0);
+    }
+
+    #[Test]
+    public function guests_cannot_view_edit_form()
+    {
+        $idea = Idea::factory()->create();
+
+        $response = $this->get("/ideas/{$idea->id}/edit");
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
+    public function guests_cannot_update_idea()
+    {
+        $idea = Idea::factory()->create([
+            'title' => 'Original Title',
+            'description' => 'Original description that is long enough.',
+            'status' => IdeaStatus::PENDING->value,
+        ]);
+
+        $response = $this->patch("/ideas/{$idea->id}", [
+            'title' => 'Hacked Title',
+            'description' => 'Hacked description.',
+            'status' => IdeaStatus::COMPLETED->value,
+        ]);
+
+        $response->assertRedirect('/login');
+        $this->assertDatabaseHas('ideas', [
+            'id' => $idea->id,
+            'title' => 'Original Title',
+        ]);
+    }
+
+    #[Test]
+    public function guests_cannot_delete_idea()
+    {
+        $idea = Idea::factory()->create();
+
+        $response = $this->delete("/ideas/{$idea->id}");
+
+        $response->assertRedirect('/login');
+        $this->assertDatabaseHas('ideas', ['id' => $idea->id]);
+    }
+
+    #[Test]
+    public function guests_cannot_delete_all_ideas()
+    {
+        Idea::factory()->count(3)->create();
+
+        $response = $this->delete('/ideas');
+
+        $response->assertRedirect('/login');
+        $this->assertDatabaseCount('ideas', 3);
+    }
 }
