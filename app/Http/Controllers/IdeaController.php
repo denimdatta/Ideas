@@ -34,7 +34,10 @@ class IdeaController extends Controller
      */
     public function store(StoreIdeaRequest $request)
     {
+        $user = auth()->user();
+
         $idea = Idea::create([
+            'user_id' => $user->id,
             'title' => $request->title,
             'description' => $request->description,
             'status' => IdeaStatus::PENDING,
