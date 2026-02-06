@@ -14,8 +14,8 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $ideas = $user->ideas()
+        $ideas = auth()->user()
+            ->ideas()
             ->orderByDesc('created_at')
             ->get();
 
@@ -37,10 +37,8 @@ class IdeaController extends Controller
      */
     public function store(StoreIdeaRequest $request)
     {
-        $user = auth()->user();
-
         $idea = Idea::create([
-            'user_id' => $user->id,
+            'user_id' => auth()->id(),
             'title' => $request->title,
             'description' => $request->description,
             'status' => IdeaStatus::PENDING,
@@ -113,8 +111,7 @@ class IdeaController extends Controller
      */
     public function destroyAll()
     {
-        $user = auth()->user();
-        $user->ideas()->delete();
+        auth()->user()->ideas()->delete();
 
         return redirect()
             ->route('ideas.index')
