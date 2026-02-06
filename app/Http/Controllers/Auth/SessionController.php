@@ -23,7 +23,15 @@ class SessionController extends Controller
     {
         $validated = $request->validated();
 
-        return redirect()->route('home');
+        if (auth()->attempt($validated)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/');
+        }
+
+        return back()->withErrors([
+            'login_error' => 'The provided credentials do not match our records.',
+        ]);
     }
 
     /**
@@ -32,6 +40,9 @@ class SessionController extends Controller
     public function destroy(Request $request)
     {
         auth()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('home');
     }
