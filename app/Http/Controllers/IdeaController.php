@@ -14,7 +14,10 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $ideas = Idea::orderByDesc('created_at')->get();
+        $user = auth()->user();
+        $ideas = $user->ideas()
+            ->orderByDesc('created_at')
+            ->get();
 
         return view('ideas.index', [
             'ideas' => $ideas,

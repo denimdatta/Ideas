@@ -24,15 +24,20 @@ class IdeaControllerTest extends TestCase
     }
 
     #[Test]
-    public function index_displays_all_ideas()
+    public function index_displays_all_ideas_of_user()
     {
-        $ideas = Idea::factory()->count(2)->create();
+        $loggedInUserIdeas = Idea::factory()->count(2)->create([
+            'user_id' => $this->user->id,
+        ]);
+        $nonLoggedInUserIdeas = Idea::factory()->count(2)->create();
 
         $response = $this->actingAs($this->user)->get('/ideas');
 
         $response->assertStatus(200);
-        $response->assertSee($ideas->first()->title);
-        $response->assertSee($ideas->last()->title);
+        $response->assertSee($loggedInUserIdeas->first()->title);
+        $response->assertSee($loggedInUserIdeas->last()->title);
+        $response->assertDontSee($nonLoggedInUserIdeas->first()->title);
+        $response->assertDontSee($nonLoggedInUserIdeas->last()->title);
     }
 
     #[Test]
