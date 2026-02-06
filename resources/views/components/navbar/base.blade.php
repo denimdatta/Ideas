@@ -33,7 +33,19 @@
             </li>
         </ul>
     </div>
-    <div class="navbar-end">
-        <a class="btn btn-accent" href="/register">Register</a>
+    <div class="navbar-end space-x-2">
+        @guest
+            <a class="btn btn-accent" href="/register">Register</a>
+            <a class="btn btn-success" href="/login">Login</a>
+        @endguest
+
+        @auth
+            <form method="POST" action="/logout">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-ghost">Logout</button>
+            </form>
+        @endauth
+
     </div>
 </div>
