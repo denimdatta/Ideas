@@ -12,12 +12,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @property  int         $id
- * @property  string      $title        The idea title.
- * @property  string      $description  The idea description.
- * @property  IdeaStatus  $status       The idea status.
- * @property  Carbon      $created_at
- * @property  Carbon      $updated_at
+ * @property       int         $id
+ * @property       string      $title        The idea title.
+ * @property       string      $description  The idea description.
+ * @property       IdeaStatus  $status       The idea status.
+ * @property       Carbon      $created_at
+ * @property       Carbon      $updated_at
+ * @property-read  User|null   $user
  *
  * @method  static  IdeaFactory           factory($count = null, $state = [])
  * @method  static  Builder<static>|Idea  newModelQuery()
