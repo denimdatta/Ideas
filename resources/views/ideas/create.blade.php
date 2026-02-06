@@ -23,7 +23,7 @@
             <div class="mt-2">
                 <textarea id="description"
                           name="description"
-                          class="textarea w-full @error('description') textarea-error @enderror"
+                          class="textarea field-sizing-content w-full @error('description') textarea-error @enderror"
                           rows="3">{{ old('description') }}</textarea>
             </div>
 
