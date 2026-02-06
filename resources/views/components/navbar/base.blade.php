@@ -34,6 +34,6 @@
         </ul>
     </div>
     <div class="navbar-end">
-        <a class="btn">Button</a>
+        <a class="btn btn-accent" href="/register">Register</a>
     </div>
 </div>

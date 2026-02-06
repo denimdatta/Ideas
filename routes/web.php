@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IdeaController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,6 @@ Route::get('/ideas/{idea}', [IdeaController::class, 'show'])->name('ideas.show')
 Route::get('/ideas/{idea}/edit', [IdeaController::class, 'edit'])->name('ideas.edit');
 Route::patch('/ideas/{idea}', [IdeaController::class, 'update'])->name('ideas.update');
 Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('ideas.destroy');
+
+Route::get('/register', [RegisterController::class, 'create'])->name('user.create');
+Route::post('/register', [RegisterController::class, 'store'])->name('user.store');
