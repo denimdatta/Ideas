@@ -3,7 +3,18 @@
 	"rules": {
 		"phpdoc_align": {
 			"align": "vertical",
-			"spacing": 2
+			"spacing": 2,
+			"tags": [
+				"method",
+				"param",
+				"property",
+				"property-read",
+				"property-write",
+				"return",
+				"throws",
+				"type",
+				"var"
+			]
 		},
 		"concat_space": {
 			"spacing": "one"
