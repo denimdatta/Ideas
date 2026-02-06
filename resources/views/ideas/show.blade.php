@@ -37,7 +37,7 @@
             <h2 class="card-title">{{ $idea->title }}</h2>
             <hr class="w-full h-0.5 bg-gray-800 border-0">
             <p class="card-description w-full">
-                {{ $idea->description }}
+                {!! nl2br(e($idea->description)) !!}
             </p>
 
             <hr class="w-full">
