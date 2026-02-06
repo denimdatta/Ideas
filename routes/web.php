@@ -21,6 +21,6 @@ Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('ideas.
 Route::get('/register', [RegisterController::class, 'create'])->name('user.create');
 Route::post('/register', [RegisterController::class, 'store'])->name('user.store');
 
-Route::get('/login', [SessionController::class, 'create'])->name('user.login');
-Route::post('/login', [SessionController::class, 'store'])->name('user.login.store');
-Route::delete('/logout', [SessionController::class, 'destroy'])->name('user.logout');
+Route::get('/login', [SessionController::class, 'create'])->name('login');
+Route::post('/login', [SessionController::class, 'store'])->name('login.store');
+Route::delete('/logout', [SessionController::class, 'destroy'])->name('logout');
