@@ -1,4 +1,4 @@
-<x-layout title="Register New User">
+<x-layout title="Login Existing User">
     <form action="/login" method="POST">
         @csrf
 
