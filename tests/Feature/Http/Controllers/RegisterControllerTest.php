@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -33,8 +35,17 @@ class RegisterControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/');
-        $response->assertSessionHas('success', 'Your account has been validated (NOT CREATED YET)!');
-        $this->assertDatabaseCount('users', 0);
+        $response->assertSessionHas('success', 'Your account has been created!');
+        $this->assertAuthenticated();
+        $this->assertDatabaseHas('users', [
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+            'first_name' => 'Test',
+            'last_name' => 'User',
+        ]);
+
+        $user = User::where('email', 'test@example.com')->first();
+        $this->assertTrue(Hash::check('Password123!', $user->password));
     }
 
     #[Test]
@@ -58,6 +69,31 @@ class RegisterControllerTest extends TestCase
             'first_name',
             'last_name',
         ]);
+        $this->assertGuest();
         $this->assertDatabaseCount('users', 0);
+    }
+
+    #[Test]
+    public function store_fails_when_username_or_email_is_not_unique()
+    {
+        User::factory()->create([
+            'username' => 'existinguser',
+            'email' => 'existing@example.com',
+        ]);
+
+        $response = $this->post('/register', [
+            'username' => 'existinguser',
+            'email' => 'existing@example.com',
+            'email_confirmation' => 'existing@example.com',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+            'first_name' => 'Test',
+            'last_name' => 'User',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['username', 'email']);
+        $this->assertGuest();
+        $this->assertDatabaseCount('users', 1);
     }
 }

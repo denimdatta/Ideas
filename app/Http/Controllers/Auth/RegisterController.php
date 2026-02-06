@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\Rules\Password;
+use App\Http\Requests\StoreRegisterRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -12,18 +14,18 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function store()
+    public function store(StoreRegisterRequest $request)
     {
-        echo 'Registering user...';
-
-        $attributes = request()->validate([
-            'username' => ['required', 'string', 'min:5', 'max:100', 'unique:users,username'],
-            'email' => ['required', 'string', 'email', 'max:255', 'confirmed', 'unique:users,email'],
-            'password' => ['required', 'string', 'confirmed', Password::defaults()],
-            'first_name' => ['required', 'string', 'max:100'],
-            'last_name' => ['required', 'string', 'max:100'],
+        $user = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
         ]);
 
-        return redirect('/')->with('success', 'Your account has been validated (NOT CREATED YET)!');
+        auth()->login($user);
+
+        return redirect('/')->with('success', 'Your account has been created!');
     }
 }
