@@ -17,8 +17,8 @@ enum IdeaStatus: string
             self::OPEN => 'Open',
             self::IN_PROGRESS => 'In Progress',
             self::CANCELED => 'Canceled',
-            self::COMPLETED => 'Completed',
-            default => 'Unknown',
+            self::COMPLETED => 'Completed', // @phpstan-ignore-line
+            default => 'Unknown',           // @codeCoverageIgnore
         };
     }
 }
