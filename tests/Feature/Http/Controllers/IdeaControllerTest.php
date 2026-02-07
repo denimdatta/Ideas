@@ -73,7 +73,13 @@ class IdeaControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/ideas');
+        $response->assertSessionHas('create_success');
+        $response->assertSessionHas('idea_id');
+
+        $ideaId = session('idea_id');
+
         $this->assertDatabaseHas('ideas', [
+            'id' => $ideaId,
             'title' => 'New Idea Title',
             'description' => 'A sufficiently long description for the new idea.',
             'status' => IdeaStatus::PENDING->value,
@@ -109,6 +115,20 @@ class IdeaControllerTest extends TestCase
     }
 
     #[Test]
+    public function store_prohibits_status_in_request()
+    {
+        $response = $this->actingAs($this->user)->post('/ideas', [
+            'title' => 'Title With Provided Status',
+            'description' => 'A long enough description.',
+            'status' => IdeaStatus::COMPLETED->value, // provided, but controller should ignore
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['status']);
+        $this->assertDatabaseCount('ideas', 0);
+    }
+
+    #[Test]
     public function edit_displays_form()
     {
         $idea = Idea::factory()->create([
@@ -139,6 +159,7 @@ class IdeaControllerTest extends TestCase
         ]);
 
         $response->assertRedirect("/ideas/{$idea->id}");
+        $response->assertSessionHas('edit_success');
         $this->assertDatabaseHas('ideas', [
             'id' => $idea->id,
             'title' => 'Updated Title',
@@ -208,6 +229,7 @@ class IdeaControllerTest extends TestCase
         $response = $this->actingAs($this->user)->delete("/ideas/{$idea->id}");
 
         $response->assertRedirect('/ideas');
+        $response->assertSessionHas('delete_success');
         $this->assertDatabaseMissing('ideas', ['id' => $idea->id]);
     }
 
@@ -222,6 +244,7 @@ class IdeaControllerTest extends TestCase
         $response = $this->actingAs($this->user)->delete('/ideas');
 
         $response->assertRedirect('/ideas');
+        $response->assertSessionHas('purge_success');
 
         // user's ideas must be deleted
         foreach ($userIdeas as $idea) {
