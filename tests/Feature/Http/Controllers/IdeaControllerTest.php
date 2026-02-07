@@ -38,6 +38,11 @@ class IdeaControllerTest extends TestCase
         $response->assertSee($loggedInUserIdeas->last()->title);
         $response->assertDontSee($nonLoggedInUserIdeas->first()->title);
         $response->assertDontSee($nonLoggedInUserIdeas->last()->title);
+
+        // Owner should see the status badge on their own idea cards
+        foreach ($loggedInUserIdeas as $idea) {
+            $response->assertSee($idea->status->getDisplayName());
+        }
     }
 
     #[Test]
@@ -52,6 +57,8 @@ class IdeaControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee($idea->title);
         $response->assertSee($idea->description);
+        // Show page always displays status regardless of policy
+        $response->assertSee($idea->status->getDisplayName());
     }
 
     #[Test]
@@ -257,6 +264,45 @@ class IdeaControllerTest extends TestCase
     }
 
     #[Test]
+    public function others_displays_only_others_ideas()
+    {
+        $otherUser = User::factory()->create();
+        $otherIdeas = Idea::factory()->count(2)->create([
+            'user_id' => $otherUser->id,
+        ]);
+        $ownIdeas = Idea::factory()->count(1)->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->get('/ideas/others');
+
+        $response->assertStatus(200);
+
+        // other users' ideas should be visible with links to their show pages
+        foreach ($otherIdeas as $idea) {
+            $response->assertSee($idea->title);
+            $response->assertSee('/ideas/' . $idea->id);
+
+            // Status badge should NOT be present on other users' idea cards (access denied)
+            $response->assertDontSee($idea->status->getDisplayName());
+
+            // But the view link (/ideas/{id}) should still be present
+            $response->assertSee('/ideas/' . $idea->id);
+        }
+
+        // own ideas should not appear on the "others" page
+        $response->assertDontSee($ownIdeas->first()->title);
+    }
+
+    #[Test]
+    public function guests_are_redirected_from_others()
+    {
+        $response = $this->get('/ideas/others');
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
     public function guests_are_redirected_from_index()
     {
         $response = $this->get('/ideas');
@@ -351,7 +397,7 @@ class IdeaControllerTest extends TestCase
 
     // Authorization tests: ensure users cannot access/modify others' ideas
     #[Test]
-    public function users_cannot_view_another_users_idea()
+    public function users_can_view_another_users_idea()
     {
         $otherUser = User::factory()->create();
         $idea = Idea::factory()->create([
@@ -360,7 +406,11 @@ class IdeaControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->get("/ideas/{$idea->id}");
 
-        $response->assertStatus(403);
+        $response->assertStatus(200);
+        $response->assertSee($idea->title);
+        $response->assertSee($idea->description);
+        // Status badge should NOT be present on other users' idea cards (access denied)
+        $response->assertDontSee($idea->status->getDisplayName());
     }
 
     #[Test]
