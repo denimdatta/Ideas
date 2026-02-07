@@ -7,21 +7,23 @@
             <span>Back to ideas</span>
         </a>
 
-        <div class="flex items-center gap-3">
-            <a href="{{ route('ideas.edit', $idea) }}" class="inline-flex items-center btn btn-primary">
-                Edit
-            </a>
+        @can('access', $idea)
+            <div class="flex items-center gap-3">
+                <a href="{{ route('ideas.edit', $idea) }}" class="inline-flex items-center btn btn-primary">
+                    Edit
+                </a>
 
-            <form method="POST" action="{{ route('ideas.destroy', $idea) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit"
-                        onclick="return confirm('Are you sure you want to delete this idea?');"
-                        class="btn btn-error">
-                    Delete
-                </button>
-            </form>
-        </div>
+                <form method="POST" action="{{ route('ideas.destroy', $idea) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            onclick="return confirm('Are you sure you want to delete this idea?');"
+                            class="btn btn-error">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        @endcan
     </div>
 
     @if (session('edit_success'))
