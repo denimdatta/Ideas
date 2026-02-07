@@ -20,9 +20,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('ideas.destroy');
 });
 
-Route::get('/register', [RegisterController::class, 'create'])->name('user.create');
-Route::post('/register', [RegisterController::class, 'store'])->name('user.store');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'create'])->name('user.create');
+    Route::post('/register', [RegisterController::class, 'store'])->name('user.store');
+});
 
-Route::get('/login', [SessionController::class, 'create'])->name('login');
-Route::post('/login', [SessionController::class, 'store'])->name('login.store');
-Route::delete('/logout', [SessionController::class, 'destroy'])->name('logout');
+Route::get('/login', [SessionController::class, 'create'])->name('login')->middleware('guest');
+Route::post('/login', [SessionController::class, 'store'])->name('login.store')->middleware('guest');
+Route::delete('/logout', [SessionController::class, 'destroy'])->name('logout')->middleware('auth');
