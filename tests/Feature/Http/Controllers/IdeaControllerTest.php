@@ -46,6 +46,38 @@ class IdeaControllerTest extends TestCase
     }
 
     #[Test]
+    public function index_orders_ideas_by_latest_created_at()
+    {
+        $oldIdea = Idea::factory()->create([
+            'user_id' => $this->user->id,
+            'title' => 'Oldest Idea',
+            'created_at' => now()->subDays(2),
+        ]);
+        $newIdea = Idea::factory()->create([
+            'user_id' => $this->user->id,
+            'title' => 'Newest Idea',
+            'created_at' => now()->subDay(),
+        ]);
+
+        $response = $this->actingAs($this->user)->get('/ideas');
+
+        $response->assertStatus(200);
+        $response->assertSeeInOrder([
+            $newIdea->title,
+            $oldIdea->title,
+        ]);
+    }
+
+    #[Test]
+    public function index_shows_empty_state_when_user_has_no_ideas()
+    {
+        $response = $this->actingAs($this->user)->get('/ideas');
+
+        $response->assertStatus(200);
+        $response->assertSee('No ideas yet.');
+    }
+
+    #[Test]
     public function show_displays_single_idea()
     {
         $idea = Idea::factory()->create([
@@ -90,6 +122,32 @@ class IdeaControllerTest extends TestCase
             'title' => 'New Idea Title',
             'description' => 'A sufficiently long description for the new idea.',
             'status' => IdeaStatus::PENDING->value,
+        ]);
+    }
+
+    #[Test]
+    public function store_ignores_user_id_from_request()
+    {
+        $otherUser = User::factory()->create();
+
+        $response = $this->actingAs($this->user)->post('/ideas', [
+            'title' => 'Spoofed User Id',
+            'description' => 'A sufficiently long description for spoofed user id.',
+            'user_id' => $otherUser->id,
+        ]);
+
+        $response->assertRedirect('/ideas');
+        $response->assertSessionHas('idea_id');
+
+        $ideaId = session('idea_id');
+
+        $this->assertDatabaseHas('ideas', [
+            'id' => $ideaId,
+            'user_id' => $this->user->id,
+        ]);
+        $this->assertDatabaseMissing('ideas', [
+            'id' => $ideaId,
+            'user_id' => $otherUser->id,
         ]);
     }
 
@@ -292,6 +350,19 @@ class IdeaControllerTest extends TestCase
 
         // own ideas should not appear on the "others" page
         $response->assertDontSee($ownIdeas->first()->title);
+    }
+
+    #[Test]
+    public function others_shows_empty_state_when_no_other_ideas_exist()
+    {
+        Idea::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->get('/ideas/others');
+
+        $response->assertStatus(200);
+        $response->assertSee('No ideas from Others.');
     }
 
     #[Test]
