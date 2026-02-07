@@ -5,11 +5,14 @@
             {!! nl2br(e($idea->description)) !!}
         </p>
 
-        <div class="grid grid-cols-2 gap-2 mt-4">
-            <small class="p-2 border-2 border-blue-400 rounded-lg w-fit justify-self-start">
-                {{ $idea->status->getDisplayName() }}
-            </small>
-            <a class="btn btn-primary w-fit justify-self-end" href="{{ route('ideas.show', $idea) }}">
+        <div class="flex items-center gap-2 mt-4">
+            @can('access', $idea)
+                <small class="p-2 border-2 border-blue-400 rounded-lg">
+                    {{ $idea->status->getDisplayName() }}
+                </small>
+            @endcan
+            
+            <a class="btn btn-primary ml-auto" href="{{ route('ideas.show', $idea) }}">
                 View
             </a>
         </div>

@@ -44,16 +44,18 @@
 
             <hr class="w-full">
 
-            <div class="grid grid-cols-2">
-                <small class="p-2 border-2 border-blue-400 rounded-lg w-fit justify-self-start">
-                    <strong>{{ $idea->status->getDisplayName() }}</strong>
-                </small>
-                <small class="w-fit justify-self-end text-right">
-                    <i><strong>Last Updated: </strong>{{ $idea->updated_at }}</i>
-                    <br/>
-                    <i><strong>Created: </strong>{{ $idea->created_at }}</i>
-                </small>
-            </div>
+            @can('access', $idea)
+                <div class="grid grid-cols-2">
+                    <small class="p-2 border-2 border-blue-400 rounded-lg w-fit justify-self-start">
+                        <strong>{{ $idea->status->getDisplayName() }}</strong>
+                    </small>
+                    <small class="w-fit justify-self-end text-right">
+                        <i><strong>Last Updated: </strong>{{ $idea->updated_at }}</i>
+                        <br/>
+                        <i><strong>Created: </strong>{{ $idea->created_at }}</i>
+                    </small>
+                </div>
+            @endcan
         </div>
     </div>
 </x-layout>
