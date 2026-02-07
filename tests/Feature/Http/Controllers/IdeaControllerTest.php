@@ -43,7 +43,9 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function show_displays_single_idea()
     {
-        $idea = Idea::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
 
         $response = $this->actingAs($this->user)->get("/ideas/{$idea->id}");
 
@@ -109,7 +111,9 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function edit_displays_form()
     {
-        $idea = Idea::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
 
         $response = $this->actingAs($this->user)->get("/ideas/{$idea->id}/edit");
 
@@ -124,7 +128,9 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function update_modifies_existing_idea_with_valid_data()
     {
-        $idea = Idea::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
 
         $response = $this->actingAs($this->user)->patch("/ideas/{$idea->id}", [
             'title' => 'Updated Title',
@@ -195,7 +201,9 @@ class IdeaControllerTest extends TestCase
     #[Test]
     public function destroy_deletes_the_idea()
     {
-        $idea = Idea::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
 
         $response = $this->actingAs($this->user)->delete("/ideas/{$idea->id}");
 
@@ -316,5 +324,74 @@ class IdeaControllerTest extends TestCase
 
         $response->assertRedirect('/login');
         $this->assertDatabaseCount('ideas', 3);
+    }
+
+    // Authorization tests: ensure users cannot access/modify others' ideas
+    #[Test]
+    public function users_cannot_view_another_users_idea()
+    {
+        $otherUser = User::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $otherUser->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->get("/ideas/{$idea->id}");
+
+        $response->assertStatus(403);
+    }
+
+    #[Test]
+    public function users_cannot_view_edit_form_for_another_users_idea()
+    {
+        $otherUser = User::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $otherUser->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->get("/ideas/{$idea->id}/edit");
+
+        $response->assertStatus(403);
+    }
+
+    #[Test]
+    public function users_cannot_update_another_users_idea()
+    {
+        $otherUser = User::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $otherUser->id,
+            'title' => 'Original Title',
+            'description' => 'Original description that is long enough.',
+            'status' => IdeaStatus::PENDING->value,
+        ]);
+
+        $response = $this->actingAs($this->user)->patch("/ideas/{$idea->id}", [
+            'title' => 'Hacked Title',
+            'description' => 'Hacked description to replace original.',
+            'status' => IdeaStatus::COMPLETED->value,
+        ]);
+
+        $response->assertStatus(403);
+
+        // Ensure nothing changed
+        $this->assertDatabaseHas('ideas', [
+            'id' => $idea->id,
+            'title' => 'Original Title',
+            'description' => 'Original description that is long enough.',
+            'status' => IdeaStatus::PENDING->value,
+        ]);
+    }
+
+    #[Test]
+    public function users_cannot_delete_another_users_idea()
+    {
+        $otherUser = User::factory()->create();
+        $idea = Idea::factory()->create([
+            'user_id' => $otherUser->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->delete("/ideas/{$idea->id}");
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('ideas', ['id' => $idea->id]);
     }
 }
