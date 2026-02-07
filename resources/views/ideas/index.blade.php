@@ -1,4 +1,21 @@
 <x-layout title="Your Ideas">
+    <div class="mb-6">
+        <div class="mb-4 flex items-center justify-between mx-auto">
+            <button
+               aria-label="Your Ideas"
+               class="inline-flex items-center btn btn-ghost">
+                Your Ideas
+            </button>
+            <a href="{{ route('ideas.others') }}"
+               aria-label="Other's Ideas"
+               class="inline-flex items-center btn btn-accent">
+                Other's Ideas
+            </a>
+        </div>
+    </div>
+
+    <div class="block w-full h-1 bg-black" aria-hidden="true"></div>
+
     <div class="mt-6">
         <div class="mb-4 flex items-center justify-between">
             <form method="POST" action="{{ route('ideas.destroy.all') }}">
