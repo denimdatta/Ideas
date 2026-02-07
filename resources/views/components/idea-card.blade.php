@@ -11,7 +11,7 @@
                     {{ $idea->status->getDisplayName() }}
                 </small>
             @endcan
-            
+
             <a class="btn btn-primary ml-auto" href="{{ route('ideas.show', $idea) }}">
                 View
             </a>

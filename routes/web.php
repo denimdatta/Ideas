@@ -11,6 +11,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/ideas', [IdeaController::class, 'index'])->name('ideas.index');
+    Route::get('/ideas/others', [IdeaController::class, 'others'])->name('ideas.others');
     Route::delete('/ideas', [IdeaController::class, 'destroyAll'])->name('ideas.destroy.all');
     Route::get('/ideas/create', [IdeaController::class, 'create'])->name('ideas.create');
     Route::post('/ideas', [IdeaController::class, 'store'])->name('ideas.store');

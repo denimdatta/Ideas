@@ -126,4 +126,19 @@ class IdeaController extends Controller
             ->route('ideas.index')
             ->with('purge_success', 'All ideas deleted successfully.');
     }
+
+    /**
+     * Display ideas from other users.
+     *
+     * @return  \Illuminate\View\View
+     */
+    public function others()
+    {
+        $userId = auth()->user()->id;
+        $ideas = Idea::where('user_id', '!=', $userId)->get();
+
+        return view('ideas.others', [
+            'ideas' => $ideas,
+        ]);
+    }
 }
