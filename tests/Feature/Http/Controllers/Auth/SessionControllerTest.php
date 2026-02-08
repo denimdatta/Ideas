@@ -29,6 +29,9 @@ class SessionControllerTest extends TestCase
             'password' => Hash::make('Password123!'),
         ]);
 
+        $user->remember_token = null;
+        $user->save();
+
         $response = $this->post('/login', [
             'username' => 'testuser',
             'password' => 'Password123!',
