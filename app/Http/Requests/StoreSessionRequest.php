@@ -34,6 +34,10 @@ class StoreSessionRequest extends FormRequest
                 'string',
                 Password::default(),
             ],
+            'remember' => [
+                'sometimes',
+                'boolean',
+            ],
         ];
     }
 }

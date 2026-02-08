@@ -18,6 +18,10 @@
                     <input id="password" name="password" type="password" class="input" placeholder="Password" required />
                 </div>
                 <x-forms.error name="password"/>
+                <label class="label cursor-pointer justify-start gap-2">
+                    <input type="checkbox" name="remember" class="checkbox" {{ old('remember') ? 'checked' : '' }} />
+                    <span class="label-text">Remember me</span>
+                </label>
             </div>
             <x-forms.error name="login_error"/>
 

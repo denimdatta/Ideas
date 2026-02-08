@@ -21,9 +21,10 @@ class SessionController extends Controller
      */
     public function store(StoreSessionRequest $request)
     {
-        $validated = $request->validated();
+        $credentials = $request->safe()->only(['username', 'password']);
+        $remember = $request->boolean('remember');
 
-        if (auth()->attempt($validated)) {
+        if (auth()->attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             return redirect()->intended('/');
