@@ -24,13 +24,12 @@ class SessionControllerTest extends TestCase
     #[Test]
     public function store_logs_in_and_redirects_with_valid_credentials()
     {
-        $user = User::factory()->create([
-            'username' => 'testuser',
-            'password' => Hash::make('Password123!'),
-        ]);
-
-        $user->remember_token = null;
-        $user->save();
+        $user = User::factory()
+            ->withoutRememberToken()
+            ->create([
+                'username' => 'testuser',
+                'password' => Hash::make('Password123!'),
+            ]);
 
         $response = $this->post('/login', [
             'username' => 'testuser',

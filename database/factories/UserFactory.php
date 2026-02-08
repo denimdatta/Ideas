@@ -44,4 +44,11 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function withoutRememberToken(): static
+    {
+        return $this->state(fn () => [
+            'remember_token' => null,
+        ]);
+    }
 }
