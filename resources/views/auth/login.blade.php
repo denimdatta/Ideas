@@ -22,6 +22,7 @@
             <x-forms.error name="login_error"/>
 
             <button class="btn btn-neutral mt-4">Login</button>
+            <a class="link link-primary mt-2 inline-block" href="{{ route('password.request') }}">Forgot password?</a>
         </fieldset>
     </form>
 </x-layout>
