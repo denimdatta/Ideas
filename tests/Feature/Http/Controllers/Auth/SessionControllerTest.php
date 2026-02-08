@@ -36,6 +36,45 @@ class SessionControllerTest extends TestCase
 
         $response->assertRedirect('/');
         $this->assertAuthenticatedAs($user);
+        $this->assertNull($user->fresh()->remember_token);
+    }
+
+    #[Test]
+    public function store_sets_remember_token_when_requested()
+    {
+        $user = User::factory()->create([
+            'username' => 'testuser',
+            'password' => Hash::make('Password123!'),
+        ]);
+
+        $response = $this->post('/login', [
+            'username' => 'testuser',
+            'password' => 'Password123!',
+            'remember' => true,
+        ]);
+
+        $response->assertRedirect('/');
+        $this->assertAuthenticatedAs($user);
+        $this->assertNotNull($user->fresh()->remember_token);
+    }
+
+    #[Test]
+    public function store_fails_with_invalid_remember_value()
+    {
+        User::factory()->create([
+            'username' => 'testuser',
+            'password' => Hash::make('Password123!'),
+        ]);
+
+        $response = $this->post('/login', [
+            'username' => 'testuser',
+            'password' => 'Password123!',
+            'remember' => ['invalid'],
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['remember']);
+        $this->assertGuest();
     }
 
     #[Test]
