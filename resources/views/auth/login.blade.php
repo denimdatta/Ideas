@@ -19,7 +19,7 @@
                 </div>
                 <x-forms.error name="password"/>
                 <label class="label cursor-pointer justify-start gap-2">
-                    <input type="checkbox" name="remember" class="checkbox" {{ old('remember') ? 'checked' : '' }} />
+                    <input type="checkbox" name="remember" value="1" class="checkbox" {{ old('remember') ? 'checked' : '' }} />
                     <span class="label-text">Remember me</span>
                 </label>
             </div>
