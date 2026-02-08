@@ -120,4 +120,31 @@ class SessionControllerTest extends TestCase
         $response->assertRedirect(route('home'));
         $this->assertGuest();
     }
+
+    #[Test]
+    public function store_after_destroy_generates_new_remember_token()
+    {
+        $user = User::factory()
+            ->withRememberToken()
+            ->create([
+                'username' => 'testuser',
+                'password' => Hash::make('Password123!'),
+            ]);
+
+        $existingToken = $user->getRememberToken();
+
+        // Logout and login again
+        $this->actingAs($user)->delete('/logout');
+        $response = $this->post('/login', [
+            'username' => 'testuser',
+            'password' => 'Password123!',
+            'remember' => true,
+        ]);
+        $currentToken = $user->fresh()->getRememberToken();
+
+        $response->assertRedirect('/');
+        $this->assertAuthenticatedAs($user);
+        $this->assertNotNull($currentToken);
+        $this->assertNotEquals($existingToken, $currentToken);
+    }
 }
