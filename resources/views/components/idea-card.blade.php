@@ -10,6 +10,10 @@
                 <small class="p-2 border-2 border-blue-400 rounded-lg">
                     {{ $idea->status->getDisplayName() }}
                 </small>
+            @else
+                <small class="p-2 border-2 border-red-400 rounded-lg">
+                    Created by: {{ $idea->user->username }}
+                </small>
             @endcan
 
             <a class="btn btn-primary ml-auto" href="{{ route('ideas.show', $idea) }}">

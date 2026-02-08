@@ -44,6 +44,16 @@ class Idea extends Model
         'status' => IdeaStatus::class,
     ];
 
+    public function scopeNotOwnedBy(Builder $query, User $user): Builder
+    {
+        return $query->where('user_id', '!=', $user->id);
+    }
+
+    public function scopeLatestFirst(Builder $query): Builder
+    {
+        return $query->orderByDesc('created_at');
+    }
+
     /**
      * Get the user that owns the idea.
      */

@@ -15,9 +15,10 @@ class IdeaController extends Controller
      */
     public function index()
     {
-        $ideas = auth()->user()
+        $user = auth()->user();
+        $ideas = $user
             ->ideas()
-            ->orderByDesc('created_at')
+            ->latestFirst()
             ->get();
 
         return view('ideas.index', [
@@ -134,8 +135,12 @@ class IdeaController extends Controller
      */
     public function others()
     {
-        $userId = auth()->user()->id;
-        $ideas = Idea::where('user_id', '!=', $userId)->get();
+        $user = auth()->user();
+        $ideas = Idea::query()
+            ->notOwnedBy($user)
+            ->with('user:id,username')
+            ->latestFirst()
+            ->get();
 
         return view('ideas.others', [
             'ideas' => $ideas,
